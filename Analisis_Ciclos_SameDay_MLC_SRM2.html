@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Análisis de Ciclos Same Day MLC — SRM2</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--text:#f1f5f9;--text2:#94a3b8;--border:#475569;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;}
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+h1{font-size:1.25rem;font-weight:700;}
+.subtitle{font-size:0.8rem;color:var(--text2);margin-top:2px;}
+.updated{font-size:0.75rem;color:var(--text2);background:var(--bg3);padding:4px 10px;border-radius:20px;}
+.toolbar{background:var(--bg2);padding:12px 24px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:16px;align-items:center;}
+.toolbar label{font-size:0.8rem;color:var(--text2);}
+select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:6px;font-size:0.85rem;cursor:pointer;}
+.main{padding:20px 24px;max-width:1400px;margin:0 auto;}
+
+/* SVC cards row */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:22px;}
+.svc-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;border-left:4px solid var(--c,#3b82f6);cursor:pointer;transition:background .15s;}
+.svc-card:hover,.svc-card.active{background:var(--bg3);}
+.svc-card .svc-name{font-size:1rem;font-weight:700;margin-bottom:4px;}
+.svc-card .svc-pm{font-size:0.72rem;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:8px;background:rgba(255,255,255,.08);}
+.svc-row{display:flex;justify-content:space-between;font-size:0.8rem;margin-top:4px;}
+.svc-row .lbl{color:var(--text2);}
+.svc-row .val{font-weight:600;}
+
+/* Timeline */
+.tl-wrap{overflow-x:auto;}
+.tl-row{display:flex;align-items:center;margin-bottom:9px;gap:8px;min-width:0;}
+.tl-label{width:100px;font-size:0.75rem;font-weight:600;color:var(--text2);flex-shrink:0;text-align:right;}
+.tl-bar{flex:1;height:30px;position:relative;background:var(--bg3);border-radius:5px;min-width:550px;}
+.tl-seg{position:absolute;top:2px;height:calc(100% - 4px);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;padding:0 4px;}
+.tl-axis-row{display:flex;align-items:center;gap:8px;margin-top:2px;}
+.tl-axis-spacer{width:100px;flex-shrink:0;}
+.tl-axis-bar{flex:1;height:1px;background:var(--border);position:relative;min-width:550px;}
+.axis-lbl{position:absolute;top:3px;font-size:0.63rem;color:var(--text2);transform:translateX(-50%);white-space:nowrap;}
+
+/* Section */
+.section{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:20px;}
+.section h2{font-size:0.88rem;font-weight:600;color:var(--text2);margin-bottom:14px;text-transform:uppercase;letter-spacing:.06em;}
+.chart-wrap{position:relative;height:260px;}
+.chart-wrap-tall{position:relative;height:320px;}
+
+/* Table */
+.table-wrap{overflow-x:auto;max-height:400px;overflow-y:auto;}
+table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+thead{position:sticky;top:0;background:var(--bg3);z-index:1;}
+th{padding:8px 10px;text-align:left;color:var(--text2);font-weight:600;font-size:0.72rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:6px 10px;border-bottom:1px solid rgba(71,85,105,.3);color:var(--text);white-space:nowrap;}
+tr:hover td{background:rgba(255,255,255,.03);}
+.g{color:var(--green);} .y{color:var(--yellow);} .r{color:var(--red);}
+.pm-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
+
+footer{text-align:center;padding:14px;color:var(--text2);font-size:0.72rem;border-top:1px solid var(--border);margin-top:20px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>📦 Análisis de Ciclos Same Day MLC — SRM2</h1>
+    <div class="subtitle">SRM2 — SRM2A/2B/2C · Clusters PM1–PM3</div>
+  </div>
+  <div class="updated">Actualizado: 2026-05-14 16:49</div>
+</header>
+
+<div class="toolbar">
+  <div>
+    <label>Fecha cierre</label><br>
+    <select id="sel-fecha" onchange="render()"><option value="2026-05-13" selected>2026-05-13</option></select>
+  </div>
+  <div style="margin-left:auto;font-size:0.8rem;color:var(--text2)" id="resumen-toolbar"></div>
+</div>
+
+<div class="main">
+  <div class="svc-grid" id="svc-grid"></div>
+
+  <div class="section">
+    <h2>⏱ Comparación de Timelines por SVC — Día seleccionado</h2>
+    <div class="tl-wrap" id="tl-multi"></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+    <div class="section">
+      <h2>📈 Shipments históricos por SVC</h2>
+      <div class="chart-wrap"><canvas id="chart-shp"></canvas></div>
+    </div>
+    <div class="section">
+      <h2>🚚 Rutas por SVC</h2>
+      <div class="chart-wrap"><canvas id="chart-rut"></canvas></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+    <div class="section">
+      <h2>⚡ Shipments / Ruta (SPR)</h2>
+      <div class="chart-wrap"><canvas id="chart-spr"></canvas></div>
+    </div>
+    <div class="section">
+      <h2>⏱ Duración Despacho (min)</h2>
+      <div class="chart-wrap"><canvas id="chart-dd"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📋 Detalle histórico completo</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Fecha</th><th>SVC</th><th>PM</th>
+          <th>Shp</th><th>Rutas</th><th>Shp/Ruta</th>
+          <th>H.Inicio</th><th>H.Retiro</th><th>I.Lect</th><th>F.Lect</th>
+          <th>F.Sep</th><th>I.Desp</th><th>F.Desp</th><th>Dur.Desp</th><th>Ausent.</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>Same Day MLC · SRM2 · Análisis de Ciclos · Generado 2026-05-14 16:49</footer>
+
+<script>
+const ALL = [{"f": "2026-05-13", "p": "SRM2A-SD", "pm": "PM1", "lv": "46155SRM2A-SD", "shp": 2891, "rut": 56, "spr": 51.625, "shi": "13:08", "rte": "13:43", "il": "14:19", "fl": "14:59", "fs": "14:59", "id": "15:10", "fd": "15:51", "dd": "00:41", "flt": null, "aus": 0.0}, {"f": "2026-05-13", "p": "SRM2B-SD", "pm": "PM2", "lv": "46155SRM2B-SD", "shp": 1670, "rut": 61, "spr": 27.377, "shi": "15:05", "rte": "15:15", "il": "16:15", "fl": "16:41", "fs": "16:44", "id": "16:55", "fd": "17:45", "dd": "00:50", "flt": null, "aus": 0.0}, {"f": "2026-05-13", "p": "SRM2C-SD", "pm": "PM3", "lv": "46155SRM2C-SD", "shp": 1168, "rut": 46, "spr": 25.3913, "shi": "17:01", "rte": "17:29", "il": "18:33", "fl": "18:59", "fs": "19:13", "id": "19:11", "fd": "20:10", "dd": "00:59", "flt": null, "aus": 0.0}];
+const SVCS = [{"p": "SRM2A-SD", "pm": "PM1", "color": "#3b82f6"}, {"p": "SRM2B-SD", "pm": "PM2", "color": "#06b6d4"}, {"p": "SRM2C-SD", "pm": "PM3", "color": "#8b5cf6"}];
+const DATES = ["2026-05-13"];
+const COLOR = {};
+const PM_OF = {};
+SVCS.forEach(s => { COLOR[s.p]=s.color; PM_OF[s.p]=s.pm; });
+
+function minsOf(t){ if(!t) return null; const[h,m]=t.split(':').map(Number); return h*60+m; }
+function fmtM(n){ if(n===null||n===undefined) return 'N/A'; return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0'); }
+function ddMins(dd){ if(!dd) return null; const[h,m]=dd.split(':').map(Number); return h*60+m; }
+function alpha(hex,a){ return hex+'Math.round(a*255).toString(16).padStart(2,"0")'; }
+
+let charts = {};
+
+function render(){
+  const fecha = document.getElementById('sel-fecha').value;
+  const dayRecs = ALL.filter(r=>r.f===fecha);
+  
+  // Resumen toolbar
+  const total_shp = dayRecs.reduce((s,r)=>s+r.shp,0);
+  const total_rut = dayRecs.reduce((s,r)=>s+r.rut,0);
+  document.getElementById('resumen-toolbar').textContent =
+    `Total día: ${total_shp.toLocaleString('es-CL')} shp · ${total_rut} rutas · ${dayRecs.length} SVCs activos`;
+
+  renderSVCCards(dayRecs, fecha);
+  renderTimelines(dayRecs);
+  renderCharts();
+  renderTable();
+}
+
+function renderSVCCards(dayRecs, fecha){
+  const grid = document.getElementById('svc-grid');
+  grid.innerHTML = SVCS.map(s => {
+    const r = dayRecs.find(x=>x.p===s.p);
+    const hist = ALL.filter(x=>x.p===s.p);
+    const avgShp = hist.length ? Math.round(hist.reduce((a,x)=>a+x.shp,0)/hist.length) : 0;
+    const ddM = r ? ddMins(r.dd) : null;
+    const ddClass = ddM===null?'':ddM<=30?'g':ddM<=45?'y':'r';
+    const aus = r?.aus;
+    const ausClass = aus===null||aus===undefined?'':aus<=0.05?'g':aus<=0.10?'y':'r';
+    return `<div class="svc-card" style="--c:${s.color}">
+      <div class="svc-name" style="color:${s.color}">${s.p}</div>
+      <div class="svc-pm">${s.pm}</div>
+      ${r ? `
+      <div class="svc-row"><span class="lbl">Shipments</span><span class="val">${r.shp.toLocaleString('es-CL')}</span></div>
+      <div class="svc-row"><span class="lbl">Rutas</span><span class="val">${r.rut}</span></div>
+      <div class="svc-row"><span class="lbl">Shp/Ruta</span><span class="val">${r.spr.toFixed(1)}</span></div>
+      <div class="svc-row"><span class="lbl">H.Inicio</span><span class="val">${r.shi||'—'}</span></div>
+      <div class="svc-row"><span class="lbl">F.Despacho</span><span class="val">${r.fd||'—'}</span></div>
+      <div class="svc-row"><span class="lbl">Dur.Desp</span><span class="val ${ddClass}">${r.dd||'—'}</span></div>
+      <div class="svc-row"><span class="lbl">Ausentismo</span><span class="val ${ausClass}">${aus!==null&&aus!==undefined?(aus*100).toFixed(1)+'%':'N/A'}</span></div>
+      <div class="svc-row" style="margin-top:6px;color:var(--text2);font-size:0.72rem"><span>Prom. hist. shp:</span><span>${avgShp.toLocaleString('es-CL')}</span></div>
+      ` : `<div style="color:var(--text2);font-size:0.8rem;padding:8px 0">Sin datos para esta fecha</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderTimelines(dayRecs){
+  const wrap = document.getElementById('tl-multi');
+  if(!dayRecs.length){ wrap.innerHTML='<div style="color:var(--text2);padding:20px">Sin datos</div>'; return; }
+
+  const CAMPOS = [
+    {key:'shi',label:'I.Sep',desc:'Inicio sep.'},
+    {key:'rte',label:'Retiro',desc:'Retiro rutas'},
+    {key:'il', label:'I.Lect',desc:'Inicio lectura'},
+    {key:'fl', label:'F.Lect',desc:'Fin lectura'},
+    {key:'fs', label:'F.Sep', desc:'Fin separación'},
+    {key:'id', label:'I.Desp',desc:'Inicio despacho'},
+    {key:'fd', label:'F.Desp',desc:'Fin despacho'},
+  ];
+
+  const allTimes = dayRecs.flatMap(r => CAMPOS.map(c=>minsOf(r[c.key])).filter(v=>v!==null));
+  if(!allTimes.length){ wrap.innerHTML='<div style="color:var(--text2);padding:20px">Sin horarios</div>'; return; }
+
+  const tMin = Math.min(...allTimes)-5;
+  const tMax = Math.max(...allTimes)+10;
+  const span = tMax-tMin;
+
+  let html = '';
+  // Sort recs by start time
+  const sorted = [...dayRecs].sort((a,b)=>(minsOf(a.shi)||0)-(minsOf(b.shi)||0));
+  sorted.forEach(r => {
+    const color = COLOR[r.p] || '#94a3b8';
+    html += `<div class="tl-row">
+      <div class="tl-label" style="color:${color}">${r.p}<br><small style="font-size:0.65rem;color:var(--text2)">${PM_OF[r.p]||''}</small></div>
+      <div class="tl-bar">`;
+    CAMPOS.forEach((c,i) => {
+      const t = minsOf(r[c.key]);
+      if(t===null) return;
+      const nextTs = CAMPOS.slice(i+1).map(x=>minsOf(r[x.key])).filter(v=>v!==null);
+      const nextT = nextTs.length ? nextTs[0] : t+8;
+      const left = ((t-tMin)/span*100).toFixed(2);
+      const wid  = Math.max((nextT-t)/span*100, 1).toFixed(2);
+      const opacity = 0.5 + (i/CAMPOS.length)*0.5;
+      html += `<div class="tl-seg" title="${c.desc}: ${r[c.key]}"
+        style="left:${left}%;width:${wid}%;background:${color};opacity:${opacity.toFixed(2)}">
+        ${r[c.key]||''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  // Axis
+  const tickStep = span > 120 ? 30 : 15;
+  const tickStart = Math.ceil(tMin/tickStep)*tickStep;
+  let ticks = '';
+  for(let t=tickStart; t<=tMax; t+=tickStep){
+    const pct = ((t-tMin)/span*100).toFixed(2);
+    ticks += `<span class="axis-lbl" style="left:${pct}%">${fmtM(t)}</span>`;
+  }
+  html += `<div class="tl-axis-row">
+    <div class="tl-axis-spacer"></div>
+    <div class="tl-axis-bar">${ticks}</div>
+  </div>`;
+
+  wrap.innerHTML = html;
+}
+
+function renderCharts(){
+  const sortedDates = [...DATES].sort();
+  const labels = sortedDates;
+
+  function getDataset(key, transform){
+    return SVCS.map(s => ({
+      label: `${s.p} (${s.pm})`,
+      data: sortedDates.map(d => {
+        const r = ALL.find(x=>x.f===d&&x.p===s.p);
+        return r ? transform(r) : null;
+      }),
+      borderColor: s.color,
+      backgroundColor: s.color+'25',
+      tension:.3,
+      fill: false,
+      pointRadius: 2,
+      spanGaps: true
+    }));
+  }
+
+  const baseOpts = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10,font:{size:11}}}},
+    scales:{
+      x:{ticks:{color:'#64748b',maxTicksLimit:12,maxRotation:45,font:{size:10}},grid:{color:'#1e293b'}},
+      y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(71,85,105,.2)'}}
+    }
+  };
+
+  [
+    ['chart-shp', r=>r.shp],
+    ['chart-rut', r=>r.rut],
+    ['chart-spr', r=>r.spr],
+    ['chart-dd',  r=>ddMins(r.dd)],
+  ].forEach(([id, fn]) => {
+    if(charts[id]) charts[id].destroy();
+    charts[id] = new Chart(document.getElementById(id), {
+      type:'line',
+      data:{ labels, datasets:getDataset(id, fn) },
+      options: JSON.parse(JSON.stringify(baseOpts))
+    });
+  });
+}
+
+function renderTable(){
+  const tbody = document.getElementById('tbody');
+  const sorted = [...ALL].sort((a,b)=>b.f.localeCompare(a.f)||a.p.localeCompare(b.p));
+  tbody.innerHTML = sorted.map(r=>{
+    const color = COLOR[r.p]||'#94a3b8';
+    const ddM = ddMins(r.dd);
+    const ddClass = ddM===null?'':ddM<=30?'g':ddM<=45?'y':'r';
+    const aus = r.aus;
+    const ausClass = aus===null||aus===undefined?'':aus<=0.05?'g':aus<=0.10?'y':'r';
+    return `<tr>
+      <td>${r.f}</td>
+      <td><span class="pm-dot" style="background:${color}"></span>${r.p}</td>
+      <td style="color:${color};font-weight:600">${r.pm}</td>
+      <td>${r.shp.toLocaleString('es-CL')}</td>
+      <td>${r.rut}</td>
+      <td>${r.spr.toFixed(1)}</td>
+      <td>${r.shi||'—'}</td>
+      <td>${r.rte||'—'}</td>
+      <td>${r.il||'—'}</td>
+      <td>${r.fl||'—'}</td>
+      <td>${r.fs||'—'}</td>
+      <td>${r.id||'—'}</td>
+      <td>${r.fd||'—'}</td>
+      <td class="${ddClass}">${r.dd||'—'}</td>
+      <td class="${ausClass}">${aus!==null&&aus!==undefined?(aus*100).toFixed(1)+'%':'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>
