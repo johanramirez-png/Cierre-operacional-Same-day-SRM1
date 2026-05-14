@@ -306,7 +306,8 @@ function subirAGitHub(htmlContent, filename, fechaActualizada) {
       sha = JSON.parse(getResp.getContentText()).sha;
     }
 
-    var contentB64 = Utilities.base64Encode(Utilities.newBlob(htmlContent, "text/html").getBytes());
+    // FIX: usar base64Encode directo para evitar truncamiento en archivos grandes (>100KB)
+    var contentB64 = Utilities.base64Encode(htmlContent);
     var commitMsg  = "Update " + filename + " - cierre " + fechaActualizada;
     var body = { message: commitMsg, content: contentB64, branch: gh.branch };
     if (sha) body.sha = sha;
