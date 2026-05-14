@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashboards Same Day MLC</title>
+<style>
+  :root{--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--accent:#3b82f6;--green:#22c55e;--text:#f1f5f9;--text2:#94a3b8;--border:#475569;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+  header{background:var(--bg2);border-bottom:1px solid var(--border);padding:28px 40px;}
+  header h1{font-size:1.6rem;font-weight:700;}
+  header p{color:var(--text2);margin-top:6px;font-size:0.9rem;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.72rem;font-weight:700;background:var(--green);color:#fff;margin-left:10px;vertical-align:middle;}
+  main{flex:1;padding:36px 40px;max-width:960px;margin:0 auto;width:100%;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:8px;}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;text-decoration:none;color:var(--text);transition:background .15s,transform .1s;display:block;}
+  .card:hover{background:var(--bg3);transform:translateY(-2px);}
+  .card .icon{font-size:2rem;margin-bottom:10px;}
+  .card h2{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+  .card .desc{font-size:0.83rem;color:var(--text2);line-height:1.5;}
+  .card .svcs{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;}
+  .svc-tag{padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:600;}
+  .pm1{background:rgba(59,130,246,.2);color:#3b82f6;}
+  .pm2{background:rgba(6,182,212,.2);color:#06b6d4;}
+  .pm3{background:rgba(139,92,246,.2);color:#8b5cf6;}
+  .pm4{background:rgba(245,158,11,.2);color:#f59e0b;}
+  .section-title{font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:12px;margin-top:28px;}
+  footer{text-align:center;padding:16px;color:var(--text2);font-size:0.73rem;border-top:1px solid var(--border);}
+  #last-update{font-size:0.8rem;color:var(--text2);margin-top:8px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>📦 Dashboards Same Day MLC <span class="badge">LIVE</span></h1>
+  <p>Análisis de ciclos Same Day — MercadoLibre Chile</p>
+  <div id="last-update">Cargando estado...</div>
+</header>
+<main>
+  <div class="section-title">Dashboards Históricos</div>
+  <div class="cards">
+    <a class="card" href="Dashboard_Historico_SameDay_MLC.html">
+      <div class="icon">📊</div>
+      <h2>Dashboard Histórico SRM1</h2>
+      <div class="desc">Vista completa de todos los cierres históricos SRM1. Filtros por fecha, comparación de PMs y timeline de ciclo.</div>
+      <div class="svcs">
+        <span class="svc-tag pm1">PM1 SRM13-SD</span>
+        <span class="svc-tag pm2">PM2 SRM15-SD</span>
+        <span class="svc-tag pm3">PM3 SRM17-SD</span>
+        <span class="svc-tag pm4">PM4 SRM19-SD</span>
+      </div>
+    </a>
+    <a class="card" href="Dashboard_Historico_SameDay_MLC_SRM2.html">
+      <div class="icon">📊</div>
+      <h2>Dashboard Histórico SRM2</h2>
+      <div class="desc">Vista completa de todos los cierres históricos SRM2. Misma estructura que SRM1 adaptada a los procesos SRM2A/B/C.</div>
+      <div class="svcs">
+        <span class="svc-tag pm1">PM1 SRM2A-SD</span>
+        <span class="svc-tag pm2">PM2 SRM2B-SD</span>
+        <span class="svc-tag pm3">PM3 SRM2C-SD</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-title">Análisis de Ciclos por SVC</div>
+  <div class="cards">
+    <a class="card" href="Analisis_Ciclos_SameDay_MLC_SRM1.html">
+      <div class="icon">⏱</div>
+      <h2>Análisis Ciclos SRM1</h2>
+      <div class="desc">Comparación de timelines entre SVCs, tendencias históricas de shipments y eficiencia (SPR, duración despacho) por cluster.</div>
+      <div class="svcs">
+        <span class="svc-tag pm1">PM1</span>
+        <span class="svc-tag pm2">PM2</span>
+        <span class="svc-tag pm3">PM3</span>
+        <span class="svc-tag pm4">PM4</span>
+      </div>
+    </a>
+    <a class="card" href="Analisis_Ciclos_SameDay_MLC_SRM2.html">
+      <div class="icon">⏱</div>
+      <h2>Análisis Ciclos SRM2</h2>
+      <div class="desc">Comparación de timelines entre SVCs SRM2, con análisis de eficiencia por cluster PM1/PM2/PM3.</div>
+      <div class="svcs">
+        <span class="svc-tag pm1">PM1</span>
+        <span class="svc-tag pm2">PM2</span>
+        <span class="svc-tag pm3">PM3</span>
+      </div>
+    </a>
+  </div>
+</main>
+<footer>Same Day MLC · Actualizado automáticamente desde Google Sheets · MercadoLibre Chile</footer>
+<script>
+  // Show last modified of dashboard files
+  fetch('Dashboard_Historico_SameDay_MLC.html')
+    .then(r => r.text())
+    .then(html => {
+      const m = html.match(/Actualizado: (\d{4}-\d{2}-\d{2} \d{2}:\d{2})/);
+      if (m) document.getElementById('last-update').textContent = 'Último cierre cargado: ' + m[1];
+    }).catch(() => {});
+</script>
+</body>
+</html>
