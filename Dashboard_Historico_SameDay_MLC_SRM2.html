@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Histórico Same Day MLC — SRM2</title>
+<title>Dashboard Hist?rico Same Day MLC ? SRM2</title>
 <style>
   :root {
     --bg:#0f172a; --bg2:#1e293b; --bg3:#334155;
@@ -65,266 +65,59 @@
 <body>
 <header>
   <div>
-    <h1>📦 Dashboard Histórico Same Day MLC — <span style="color:var(--accent2)">SRM2</span>
-      <span class="new-badge">🆕 Nuevo esquema clusters</span>
+    <h1>? Dashboard Hist?rico Same Day MLC ? <span style="color:var(--accent2)">SRM2</span>
+      <span class="new-badge">? Nuevo esquema clusters</span>
     </h1>
-    <div class="subtitle">Clusters PM1 (SRM2A) · PM2 (SRM2B) · PM3 (SRM2C)</div>
+    <div class="subtitle">Clusters PM1 (SRM2A) ? PM2 (SRM2B) ? PM3 (SRM2C)</div>
   </div>
-  <div class="updated">Actualizado: 2026-05-14 08:45:27</div>
+  <div class="updated">Actualizado: 2026-05-15 13:43</div>
 </header>
-
 <div class="toolbar">
-  <div>
-    <label>Fecha cierre</label><br>
+  <div><label>Fecha cierre</label><br>
     <select id="cierre-fecha" onchange="renderDay()">
-      <option value="2026-05-13" selected>2026-05-13</option>
+      <option value="2026-05-15" selected>2026-05-13</option>
     </select>
   </div>
-  <div>
-    <label>Clusters</label><br>
+  <div><label>Clusters</label><br>
     <div class="pm-toggle">
-      <button class="pm-btn pm1 active" onclick="togglePM('PM1',this)">PM1 · SRM2A</button>
-      <button class="pm-btn pm2 active" onclick="togglePM('PM2',this)">PM2 · SRM2B</button>
-      <button class="pm-btn pm3 active" onclick="togglePM('PM3',this)">PM3 · SRM2C</button>
+      <button class="pm-btn pm1 active" onclick="togglePM('PM1',this)">PM1 ? SRM2A</button>
+      <button class="pm-btn pm2 active" onclick="togglePM('PM2',this)">PM2 ? SRM2B</button>
+      <button class="pm-btn pm3 active" onclick="togglePM('PM3',this)">PM3 ? SRM2C</button>
     </div>
   </div>
 </div>
-
 <div class="main">
-  <div class="info-banner">
-    ℹ️ <strong>Tracking iniciado: 2026-05-13</strong> — Dashboard del nuevo esquema de sub-clusters SRM2 (SRM2A/B/C-SD).
-    Los datos históricos se irán acumulando con cada actualización nocturna.
-  </div>
-
+  <div class="info-banner">?? <strong>Tracking iniciado: 2026-05-13</strong> ? Dashboard del nuevo esquema de sub-clusters SRM2 (SRM2A/B/C-SD). Los datos hist?ricos se ir?n acumulando con cada actualizaci?n.</div>
   <div class="kpi-grid" id="kpi-grid"></div>
-
-  <div class="section">
-    <h2>⏱ Timeline Operacional — día seleccionado</h2>
-    <div class="timeline-container" id="timeline-container"></div>
+  <div class="section"><h2>? Timeline Operacional</h2><div class="timeline-container" id="timeline-container"></div></div>
+  <div class="section"><h2>? Detalle Cierre</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>PM</th><th>Proceso</th><th>SHP</th><th>Rutas</th><th>SPR</th><th>Shipped</th><th>Ruteo</th><th>Ini Label</th><th>Fin Label</th><th>Fin Sort</th><th>Ini Desp</th><th>Fin Desp</th><th>T.Desp</th><th>Faltantes</th><th>Ausentismo</th></tr></thead>
+      <tbody id="cierre-tbody"></tbody>
+    </table></div>
   </div>
-
-  <div class="section">
-    <h2>📋 Detalle Cierre — día seleccionado</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>PM</th><th>Proceso</th><th>SHP</th><th>Rutas</th><th>SPR</th>
-            <th>Shipped</th><th>Ruteo</th><th>Ini Label</th><th>Fin Label</th>
-            <th>Fin Sort</th><th>Ini Desp</th><th>Fin Desp</th><th>T.Desp</th>
-            <th>Faltantes</th><th>Ausentismo</th>
-          </tr>
-        </thead>
-        <tbody id="cierre-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>📈 Tendencia SHP por PM</h2>
-    <div class="chart-wrap"><canvas id="shp-chart"></canvas></div>
-  </div>
-
-  <div class="section">
-    <h2>📊 Tendencia SPR por PM</h2>
-    <div class="chart-wrap"><canvas id="spr-chart"></canvas></div>
-  </div>
-
-  <div class="section">
-    <h2>🗂 Histórico Completo</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Fecha</th><th>PM</th><th>Proceso</th><th>SHP</th><th>Rutas</th><th>SPR</th>
-            <th>Shipped</th><th>Fin Sort</th><th>Fin Desp</th><th>Faltantes</th><th>Ausent.</th>
-          </tr>
-        </thead>
-        <tbody id="hist-tbody"></tbody>
-      </table>
-    </div>
+  <div class="section"><h2>? Tendencia SHP</h2><div class="chart-wrap"><canvas id="shp-chart"></canvas></div></div>
+  <div class="section"><h2>? Tendencia SPR</h2><div class="chart-wrap"><canvas id="spr-chart"></canvas></div></div>
+  <div class="section"><h2>? Hist?rico</h2>
+    <div class="table-wrap" style="max-height:500px"><table>
+      <thead><tr><th>Fecha</th><th>PM</th><th>Proceso</th><th>SHP</th><th>Rutas</th><th>SPR</th><th>Shipped</th><th>Fin Sort</th><th>Fin Desp</th><th>Faltantes</th><th>Ausent.</th></tr></thead>
+      <tbody id="hist-tbody"></tbody>
+    </table></div>
   </div>
 </div>
-
-<footer>Dashboard Same Day MLC · SRM2 · Generado 2026-05-14 · 3 registros · Inicio tracking: 2026-05-13</footer>
-
+<footer>Dashboard Same Day MLC ? SRM2 ? Generado 2026-05-14 ? 3 registros ? Inicio tracking: 2026-05-13</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-
-const CIERRE_RAW_DATA = [{"f":"2026-05-13","p":"SRM2A-SD","pm":"PM1","lv":"46155SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":"15:51","dd":"00:41","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2B-SD","pm":"PM2","lv":"46155SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":"17:45","dd":"00:50","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2C-SD","pm":"PM3","lv":"46155SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":"20:10","dd":"00:59","flt":null,"aus":0.0}];
-const RAW_DATA = {"ultima_actualizacion":"2026-05-14T08:45:27.830568","table":[{"f":"2026-05-13","p":"SRM2A-SD","pm":"PM1","lv":"46155SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":"15:51","dd":"00:41","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2B-SD","pm":"PM2","lv":"46155SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":"17:45","dd":"00:50","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2C-SD","pm":"PM3","lv":"46155SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":"20:10","dd":"00:59","flt":null,"aus":0.0}]};
-
-let activePMs = new Set(['PM1','PM2','PM3']);
-let shpChart = null, sprChart = null;
-const PM_COLORS = { PM1:'#f97316', PM2:'#06b6d4', PM3:'#8b5cf6' };
-
-function togglePM(pm, btn) {
-  if (activePMs.has(pm)) {
-    if (activePMs.size === 1) return;
-    activePMs.delete(pm);
-    btn.classList.remove('active');
-  } else {
-    activePMs.add(pm);
-    btn.classList.add('active');
-  }
-  renderDay(); renderTrend();
-}
-
-function timeToMin(t) {
-  if (!t) return null;
-  const [h,m] = t.split(':').map(Number);
-  return h*60+m;
-}
-
-function renderDay() {
-  const fecha = document.getElementById('cierre-fecha').value;
-  const rows = CIERRE_RAW_DATA.filter(r => r.f===fecha && activePMs.has(r.pm));
-  rows.sort((a,b) => a.pm.localeCompare(b.pm));
-
-  const totalShp = rows.reduce((s,r)=>s+(r.shp||0),0);
-  const totalRut = rows.reduce((s,r)=>s+(r.rut||0),0);
-  const sprArr = rows.filter(r=>r.spr);
-  const avgSpr = sprArr.length ? (sprArr.reduce((s,r)=>s+r.spr,0)/sprArr.length).toFixed(1) : '--';
-  const lastFs = rows.filter(r=>r.fs).map(r=>r.fs).sort().pop()||'--';
-  const lastFd = rows.filter(r=>r.fd).map(r=>r.fd).sort().pop()||'--';
-
-  document.getElementById('kpi-grid').innerHTML =
-    `<div class="kpi-card"><div class="kpi-label">📦 SHP Total</div><div class="kpi-val">${totalShp.toLocaleString()}</div><div class="kpi-sub">${rows.length} clusters activos</div></div>` +
-    `<div class="kpi-card"><div class="kpi-label">🛣 Rutas</div><div class="kpi-val">${totalRut}</div><div class="kpi-sub">rutas asignadas</div></div>` +
-    `<div class="kpi-card"><div class="kpi-label">⚡ SPR Promedio</div><div class="kpi-val">${avgSpr}</div><div class="kpi-sub">shp / ruta</div></div>` +
-    `<div class="kpi-card"><div class="kpi-label">✅ Último Fin Sorting</div><div class="kpi-val" style="font-size:1.3rem">${lastFs}</div><div class="kpi-sub">hora cierre sorting</div></div>` +
-    `<div class="kpi-card"><div class="kpi-label">🚚 Último Fin Despacho</div><div class="kpi-val" style="font-size:1.3rem">${lastFd}</div><div class="kpi-sub">hora cierre despacho</div></div>`;
-
-  renderTimeline(rows);
-
-  const tbody = document.getElementById('cierre-tbody');
-  tbody.innerHTML = '';
-  rows.forEach(r => {
-    const pm = r.pm.toLowerCase();
-    const ausPct = r.aus != null ? (r.aus*100).toFixed(1)+'%' : '--';
-    tbody.innerHTML +=
-      `<tr>
-        <td><span class="badge ${pm}">${r.pm}</span></td>
-        <td style="color:var(--text2)">${r.p}</td>
-        <td style="font-weight:600">${r.shp!=null?r.shp.toLocaleString():'--'}</td>
-        <td>${r.rut??'--'}</td>
-        <td>${r.spr!=null?r.spr.toFixed(1):'--'}</td>
-        <td>${r.shi||'--'}</td><td>${r.rte||'--'}</td>
-        <td>${r.il||'--'}</td><td>${r.fl||'--'}</td>
-        <td style="font-weight:600;color:var(--green)">${r.fs||'--'}</td>
-        <td>${r.id||'--'}</td>
-        <td style="font-weight:600;color:var(--accent2)">${r.fd||'--'}</td>
-        <td>${r.dd||'--'}</td>
-        <td style="color:${r.flt>0?'var(--red)':'var(--text2)'}">${r.flt??'--'}</td>
-        <td style="color:${r.aus>0.05?'var(--yellow)':'var(--text2)'}">${ausPct}</td>
-      </tr>`;
-  });
-}
-
-function renderTimeline(rows) {
-  const allTimes = [];
-  rows.forEach(r => ['shi','rte','il','fl','fs','id','fd'].forEach(k => {
-    const m = timeToMin(r[k]); if (m) allTimes.push(m);
-  }));
-  if (!allTimes.length) {
-    document.getElementById('timeline-container').innerHTML = '<div style="text-align:center;padding:30px;color:var(--text2)">Sin datos de tiempos</div>';
-    return;
-  }
-  const minT = Math.min(...allTimes)-15, maxT = Math.max(...allTimes)+15, range = maxT-minT;
-  const segDefs = [
-    {key:'shi',label:'Ship',color:'#3b82f6'},
-    {key:'rte',label:'Ruteo',color:'#06b6d4'},
-    {key:'il',label:'IniLabel',color:'#8b5cf6'},
-    {key:'fl',label:'FinLabel',color:'#a78bfa'},
-    {key:'fs',label:'FinSort',color:'#22c55e'},
-    {key:'id',label:'IniDesp',color:'#f59e0b'},
-    {key:'fd',label:'FinDesp',color:'#ef4444'}
-  ];
-  let html = '<div class="timeline-chart">';
-  rows.forEach(r => {
-    const color = PM_COLORS[r.pm];
-    html += `<div class="timeline-row"><div class="timeline-label" style="color:${color}">${r.pm}<br><span style="font-size:.68rem;font-weight:400;color:var(--text2)">${r.p.replace('-SD','')}</span></div><div class="timeline-bar">`;
-    const times = segDefs.map(s=>Object.assign({},s,{min:timeToMin(r[s.key])})).filter(s=>s.min).sort((a,b)=>a.min-b.min);
-    times.forEach((seg,i) => {
-      const left = ((seg.min-minT)/range*100).toFixed(1);
-      const width = i<times.length-1 ? ((times[i+1].min-seg.min)/range*100).toFixed(1) : Math.max(2,(15/range*100)).toFixed(1);
-      html += `<div class="timeline-segment" style="left:${left}%;width:${width}%;background:${seg.color};min-width:8px" title="${seg.label} ${r[seg.key]}">${seg.label}</div>`;
-    });
-    times.forEach(seg => {
-      const left = ((seg.min-minT)/range*100).toFixed(1);
-      html += `<div style="position:absolute;left:${left}%;top:-5px;width:2px;height:38px;background:${seg.color};opacity:.35"></div>`;
-    });
-    html += '</div></div>';
-  });
-  html += '<div class="timeline-axis"><div style="width:80px;flex-shrink:0"></div><div class="timeline-axis-bar">';
-  for (let i=0; i<=6; i++) {
-    const pct=i/6*100, mins=minT+range*(i/6), h=Math.floor(mins/60), m=Math.round(mins%60);
-    html += `<span class="axis-tick" style="left:${pct}%">${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}</span>`;
-  }
-  html += '</div></div>';
-  html += '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;padding-left:90px">';
-  segDefs.forEach(s => { html += `<span style="display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--text2)"><span style="width:12px;height:12px;border-radius:2px;background:${s.color};display:inline-block"></span>${s.label}</span>`; });
-  html += '</div></div>';
-  document.getElementById('timeline-container').innerHTML = html;
-}
-
-function renderTrend() {
-  const pms = ['PM1','PM2','PM3'].filter(pm => activePMs.has(pm));
-  const filtered = CIERRE_RAW_DATA.filter(r => activePMs.has(r.pm));
-  const dateSet = [...new Set(filtered.map(r=>r.f))].sort();
-
-  const makeDatasets = (key, fmt) => pms.map(pm => ({
-    label: pm,
-    data: dateSet.map(d => { const r=filtered.find(x=>x.f===d&&x.pm===pm); return r&&r[key]!=null?fmt(r[key]):null; }),
-    borderColor: PM_COLORS[pm], backgroundColor: PM_COLORS[pm]+'33',
-    tension:.3, pointRadius:5, pointHoverRadius:7, fill:false, spanGaps:true
-  }));
-
-  const opts = {
-    responsive:true, maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'top',labels:{color:'#94a3b8',font:{size:11}}},
-      tooltip:{mode:'index',intersect:false}
-    },
-    scales:{
-      x:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(71,85,105,.3)'}},
-      y:{ticks:{color:'#94a3b8',font:{size:10}},grid:{color:'rgba(71,85,105,.3)'}}
-    }
-  };
-
-  if(shpChart) shpChart.destroy();
-  if(sprChart) sprChart.destroy();
-  shpChart = new Chart(document.getElementById('shp-chart').getContext('2d'), {
-    type:'line', data:{labels:dateSet, datasets:makeDatasets('shp',v=>v)}, options:opts
-  });
-  sprChart = new Chart(document.getElementById('spr-chart').getContext('2d'), {
-    type:'line', data:{labels:dateSet, datasets:makeDatasets('spr',v=>parseFloat(v.toFixed(1)))}, options:opts
-  });
-
-  const histTbody = document.getElementById('hist-tbody');
-  histTbody.innerHTML = '';
-  [...filtered].sort((a,b)=>b.f.localeCompare(a.f)||a.pm.localeCompare(b.pm)).forEach(r => {
-    const pm = r.pm.toLowerCase();
-    histTbody.innerHTML +=
-      `<tr>
-        <td style="color:var(--text2)">${r.f}</td>
-        <td><span class="badge ${pm}">${r.pm}</span></td>
-        <td style="color:var(--text2);font-size:.77rem">${r.p}</td>
-        <td style="font-weight:600">${r.shp!=null?r.shp.toLocaleString():'--'}</td>
-        <td>${r.rut??'--'}</td>
-        <td>${r.spr!=null?r.spr.toFixed(1):'--'}</td>
-        <td>${r.shi||'--'}</td>
-        <td style="color:var(--green);font-weight:600">${r.fs||'--'}</td>
-        <td style="color:var(--accent2);font-weight:600">${r.fd||'--'}</td>
-        <td style="color:${r.flt>0?'var(--red)':'var(--text2)'}">${r.flt??'--'}</td>
-        <td>${r.aus!=null?(r.aus*100).toFixed(1)+'%':'--'}</td>
-      </tr>`;
-  });
-}
-
-renderDay();
-renderTrend();
-
+const CIERRE_RAW_DATA = [{"f":"2026-05-15","p":"SRM2A-SD","pm":"PM1","lv":"46157SRM2A-SD","shp":2673,"rut":53,"spr":50.434,"shi":"13:06","rte":null,"il":null,"fl":null,"fs":null,"id":null,"fd":null,"dd":null,"flt":null,"aus":null},{"f":"2026-05-15","p":"SRM2B-SD","pm":"PM2","lv":"46157SRM2B-SD","shp":null,"rut":null,"spr":null,"shi":null,"rte":null,"il":null,"fl":null,"fs":null,"id":null,"fd":null,"dd":null,"flt":null,"aus":null},{"f":"2026-05-15","p":"SRM2C-SD","pm":"PM3","lv":"46157SRM2C-SD","shp":null,"rut":null,"spr":null,"shi":null,"rte":null,"il":null,"fl":null,"fs":null,"id":null,"fd":null,"dd":null,"flt":null,"aus":null},{"f":"2026-05-14","p":"SRM2A-SD","pm":"PM1","lv":"46156SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-14","p":"SRM2B-SD","pm":"PM2","lv":"46156SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-14","p":"SRM2C-SD","pm":"PM3","lv":"46156SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-13","p":"SRM2A-SD","pm":"PM1","lv":"46155SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":"15:51","dd":"00:41","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2B-SD","pm":"PM2","lv":"46155SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":"17:45","dd":"00:50","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2C-SD","pm":"PM3","lv":"46155SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":"20:10","dd":"00:59","flt":null,"aus":0.0}];
+const RAW = {"ultima_actualizacion":"2026-05-14T08:45:00","table":[{"f":"2026-05-15","p":"SRM2A-SD","pm":"PM1","lv":"46157SRM2A-SD","shp":2673,"rut":53,"spr":50.434,"shi":"13:06","rte":null,"il":null,"fl":null,"fs":null,"id":null,"fd":null,"dd":null,"flt":null,"aus":null},{"f":"2026-05-14","p":"SRM2A-SD","pm":"PM1","lv":"46156SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-14","p":"SRM2B-SD","pm":"PM2","lv":"46156SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-14","p":"SRM2C-SD","pm":"PM3","lv":"46156SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":null,"dd":null,"flt":null,"aus":0},{"f":"2026-05-13","p":"SRM2A-SD","pm":"PM1","lv":"46155SRM2A-SD","shp":2891,"rut":56,"spr":51.625,"shi":"13:08","rte":"13:43","il":"14:19","fl":"14:59","fs":"14:59","id":"15:10","fd":"15:51","dd":"00:41","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2B-SD","pm":"PM2","lv":"46155SRM2B-SD","shp":1670,"rut":61,"spr":27.377,"shi":"15:05","rte":"15:15","il":"16:15","fl":"16:41","fs":"16:44","id":"16:55","fd":"17:45","dd":"00:50","flt":null,"aus":0.0},{"f":"2026-05-13","p":"SRM2C-SD","pm":"PM3","lv":"46155SRM2C-SD","shp":1168,"rut":46,"spr":25.3913,"shi":"17:01","rte":"17:29","il":"18:33","fl":"18:59","fs":"19:13","id":"19:11","fd":"20:10","dd":"00:59","flt":null,"aus":0.0}]};
+let activePMs=new Set(['PM1','PM2','PM3']);let shpChart=null,sprChart=null;
+const PM_COLORS={PM1:'#f97316',PM2:'#06b6d4',PM3:'#8b5cf6'};
+function togglePM(pm,btn){if(activePMs.has(pm)){if(activePMs.size===1)return;activePMs.delete(pm);btn.classList.remove('active')}else{activePMs.add(pm);btn.classList.add('active')}renderDay();renderTrend()}
+function timeToMin(t){if(!t)return null;const[h,m]=t.split(':').map(Number);return h*60+m}
+function renderDay(){const fecha=document.getElementById('cierre-fecha').value;const rows=CIERRE_RAW_DATA.filter(r=>r.f===fecha&&activePMs.has(r.pm)).sort((a,b)=>a.pm.localeCompare(b.pm));const totalShp=rows.reduce((s,r)=>s+(r.shp||0),0);const totalRut=rows.reduce((s,r)=>s+(r.rut||0),0);const sprArr=rows.filter(r=>r.spr);const avgSpr=sprArr.length?(sprArr.reduce((s,r)=>s+r.spr,0)/sprArr.length).toFixed(1):'--';const lastFs=rows.filter(r=>r.fs).map(r=>r.fs).sort().pop()||'--';const lastFd=rows.filter(r=>r.fd).map(r=>r.fd).sort().pop()||'--';document.getElementById('kpi-grid').innerHTML='<div class="kpi-card"><div class="kpi-label">SHP Total</div><div class="kpi-val">'+totalShp.toLocaleString()+'</div><div class="kpi-sub">'+rows.length+' clusters</div></div><div class="kpi-card"><div class="kpi-label">Rutas</div><div class="kpi-val">'+totalRut+'</div><div class="kpi-sub">asignadas</div></div><div class="kpi-card"><div class="kpi-label">SPR Promedio</div><div class="kpi-val">'+avgSpr+'</div><div class="kpi-sub">shp/ruta</div></div><div class="kpi-card"><div class="kpi-label">Fin Sorting</div><div class="kpi-val" style="font-size:1.3rem">'+lastFs+'</div></div><div class="kpi-card"><div class="kpi-label">Fin Despacho</div><div class="kpi-val" style="font-size:1.3rem">'+lastFd+'</div></div>';renderTimeline(rows);const tbody=document.getElementById('cierre-tbody');tbody.innerHTML='';rows.forEach(function(r){const pm=r.pm.toLowerCase();const aus=r.aus!=null?(r.aus*100).toFixed(1)+'%':'--';tbody.innerHTML+='<tr><td><span class="badge '+pm+'">'+r.pm+'</span></td><td style="color:var(--text2)">'+r.p+'</td><td style="font-weight:600">'+(r.shp!=null?r.shp.toLocaleString():'--')+'</td><td>'+(r.rut!=null?r.rut:'--')+'</td><td>'+(r.spr!=null?r.spr.toFixed(1):'--')+'</td><td>'+(r.shi||'--')+'</td><td>'+(r.rte||'--')+'</td><td>'+(r.il||'--')+'</td><td>'+(r.fl||'--')+'</td><td style="font-weight:600;color:var(--green)">'+(r.fs||'--')+'</td><td>'+(r.id||'--')+'</td><td style="font-weight:600;color:var(--accent2)">'+(r.fd||'--')+'</td><td>'+(r.dd||'--')+'</td><td>'+(r.flt!=null?r.flt:'--')+'</td><td>'+aus+'</td></tr>'})}
+function renderTimeline(rows){const allT=[];rows.forEach(function(r){['shi','rte','il','fl','fs','id','fd'].forEach(function(k){const m=timeToMin(r[k]);if(m)allT.push(m)})});if(!allT.length){document.getElementById('timeline-container').innerHTML='<div style="padding:30px;text-align:center;color:var(--text2)">Sin datos</div>';return}const minT=Math.min.apply(null,allT)-15,maxT=Math.max.apply(null,allT)+15,range=maxT-minT;const segs=[{k:'shi',l:'Ship',c:'#3b82f6'},{k:'rte',l:'Ruteo',c:'#06b6d4'},{k:'il',l:'IniLabel',c:'#8b5cf6'},{k:'fl',l:'FinLabel',c:'#a78bfa'},{k:'fs',l:'FinSort',c:'#22c55e'},{k:'id',l:'IniDesp',c:'#f59e0b'},{k:'fd',l:'FinDesp',c:'#ef4444'}];let h='<div class="timeline-chart">';rows.forEach(function(r){const col=PM_COLORS[r.pm];h+='<div class="timeline-row"><div class="timeline-label" style="color:'+col+'">'+r.pm+'</div><div class="timeline-bar">';const times=segs.map(function(s){return Object.assign({},s,{min:timeToMin(r[s.k])})}).filter(function(s){return s.min}).sort(function(a,b){return a.min-b.min});times.forEach(function(s,i){const l=((s.min-minT)/range*100).toFixed(1),w=i<times.length-1?((times[i+1].min-s.min)/range*100).toFixed(1):Math.max(2,(15/range*100)).toFixed(1);h+='<div class="timeline-segment" style="left:'+l+'%;width:'+w+'%;background:'+s.c+';min-width:8px">'+s.l+'</div>'});h+='</div></div>'});h+='<div class="timeline-axis"><div style="width:80px;flex-shrink:0"></div><div class="timeline-axis-bar">';for(let i=0;i<=6;i++){const pct=i/6*100,mins=minT+range*(i/6),hh=Math.floor(mins/60),mm=Math.round(mins%60);h+='<span class="axis-tick" style="left:'+pct+'%">'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0')+'</span>'}h+='</div></div></div>';document.getElementById('timeline-container').innerHTML=h}
+function renderTrend(){const pms=['PM1','PM2','PM3'].filter(function(pm){return activePMs.has(pm)});const filtered=CIERRE_RAW_DATA.filter(function(r){return activePMs.has(r.pm)});const dateSet=[...new Set(filtered.map(function(r){return r.f}))].sort();const mkDs=function(key,fmt){return pms.map(function(pm){return{label:pm,data:dateSet.map(function(d){const r=filtered.find(function(x){return x.f===d&&x.pm===pm});return r&&r[key]!=null?fmt(r[key]):null}),borderColor:PM_COLORS[pm],backgroundColor:PM_COLORS[pm]+'33',tension:.3,pointRadius:4,fill:false,spanGaps:true}})};const opts={responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:'#94a3b8'}},tooltip:{mode:'index',intersect:false}},scales:{x:{ticks:{color:'#94a3b8'},grid:{color:'rgba(71,85,105,.3)'}},y:{ticks:{color:'#94a3b8'},grid:{color:'rgba(71,85,105,.3)'}}}};if(shpChart)shpChart.destroy();if(sprChart)sprChart.destroy();shpChart=new Chart(document.getElementById('shp-chart').getContext('2d'),{type:'line',data:{labels:dateSet,datasets:mkDs('shp',function(v){return v})},options:opts});sprChart=new Chart(document.getElementById('spr-chart').getContext('2d'),{type:'line',data:{labels:dateSet,datasets:mkDs('spr',function(v){return parseFloat(v.toFixed(1))})},options:opts});const tb=document.getElementById('hist-tbody');tb.innerHTML='';[...filtered].sort(function(a,b){return b.f>a.f?1:b.f<a.f?-1:a.pm>b.pm?1:-1}).forEach(function(r){const pm=r.pm.toLowerCase();tb.innerHTML+='<tr><td style="color:var(--text2)">'+r.f+'</td><td><span class="badge '+pm+'">'+r.pm+'</span></td><td style="color:var(--text2)">'+r.p+'</td><td style="font-weight:600">'+(r.shp!=null?r.shp.toLocaleString():'--')+'</td><td>'+(r.rut!=null?r.rut:'--')+'</td><td>'+(r.spr!=null?r.spr.toFixed(1):'--')+'</td><td>'+(r.shi||'--')+'</td><td style="color:var(--green);font-weight:600">'+(r.fs||'--')+'</td><td style="color:var(--accent2);font-weight:600">'+(r.fd||'--')+'</td><td>'+(r.flt!=null?r.flt:'--')+'</td><td>'+(r.aus!=null?(r.aus*100).toFixed(1)+'%':'--')+'</td></tr>'})}
+renderDay();renderTrend();
 </script>
 </body>
 </html>
